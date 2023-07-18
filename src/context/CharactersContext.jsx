@@ -33,9 +33,44 @@ export const CharactersContextProvider = ({ children }) => {
     getData();
   }, []);
 
+  const goToPage = async (page, e) => {
+    const type = e.target.dataset.type;
+    switch (type) {
+      case "prev":
+        setActualPages(actualPages - 1);
+        break;
+      case "next":
+        setActualPages(actualPages + 1);
+        break;
+      default:
+        break;
+    }
+
+    try {
+      const response = await fetch(page);
+      if (!response.ok) {
+        throw new Error(`Error HTPP en ${response.status}`);
+      }
+      const { info, results } = await response.json();
+      setCharacters(results);
+      setPrevPages(info.prev);
+      setnextPages(info.next);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <CharactersContext.Provider
-      value={{ characters, totalResults, pages, actualPages, prevPages, nextPages }}
+      value={{
+        characters,
+        totalResults,
+        pages,
+        actualPages,
+        prevPages,
+        nextPages,
+        goToPage,
+      }}
     >
       {children}
     </CharactersContext.Provider>

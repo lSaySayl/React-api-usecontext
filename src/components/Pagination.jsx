@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CharactersContext } from "../context/CharactersContext";
 
 const Pagination = () => {
-  const { totalResults,pages, actualPages,nextPages,prevPages } = useContext(CharactersContext);
+  const { totalResults,pages, actualPages,nextPages,prevPages,goToPage } = useContext(CharactersContext);
   return (
     <>
       <section className="col-3 d-flex align-items-center">
@@ -21,8 +21,8 @@ const Pagination = () => {
       </section>
 
       <section className="col-3 text-end">
-        {prevPages && <button className="btn btn-success mx-2">Prev</button>}
-        {nextPages && <button className="btn btn-success mx-2">Next</button>}
+        {prevPages && <button data-type="prev" className="btn btn-success mx-2" onClick={e=> goToPage(prevPages,e)}>Prev</button>}
+        {nextPages && <button data-type="next" className="btn btn-success mx-2" onClick={e=> goToPage(nextPages,e)}>Next</button>}
       </section>
     </>
   );
