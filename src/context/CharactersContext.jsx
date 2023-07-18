@@ -5,6 +5,11 @@ export const CharactersContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const CharactersContextProvider = ({ children }) => {
   const [characters, setCharacters] = useState([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [pages, setpages] = useState(0);
+  const [actualPages, setActualPages] = useState(1);
+  const [prevPages, setPrevPages] = useState(null);
+  const [nextPages, setnextPages] = useState(null);
 
   const getData = async () => {
     try {
@@ -13,9 +18,12 @@ export const CharactersContextProvider = ({ children }) => {
       if (!response.ok) {
         throw new Error(`Error HTPP en ${response.status}`);
       }
-      const data = await response.json();
-      console.log(data.results);
-      setCharacters(data.results);
+      const { info, results } = await response.json();
+      setCharacters(results);
+      setTotalResults(info.count);
+      setpages(info.pages);
+      setPrevPages(info.prev);
+      setnextPages(info.next);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +34,9 @@ export const CharactersContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <CharactersContext.Provider value={{ characters }}>
+    <CharactersContext.Provider
+      value={{ characters, totalResults, pages, actualPages, prevPages, nextPages }}
+    >
       {children}
     </CharactersContext.Provider>
   );
