@@ -1,13 +1,18 @@
-import './App.css'
+//Context
+import { CharactersContextProvider } from "./context/CharactersContext";
+
+//Components
+import Characters from "./components/Characters";
 
 function App() {
-
   return (
-    <>
-    <h1 className='alert alert-danger'>Hello</h1>
-    
-    </>
-  )
+    <section className="container">
+      <h1 className="alert alert-success text-center">Rick and Morty App</h1>
+      <CharactersContextProvider>
+        <Characters />
+      </CharactersContextProvider>
+    </section>
+  );
 }
 
-export default App
+export default App;
