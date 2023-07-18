@@ -15,8 +15,12 @@ const Pagination = () => {
 
       <section className="col-3 d-flex align-items-center">
         <b>Go to page </b>
-        <select className="form-select w-auto mx-1" name="goto">
-          <option value="1">1</option>
+        <select className="form-select w-auto mx-1" name="goTo" data-type="goTo" value={actualPages} onChange={e => goToPage("",e)}>
+        {
+            Array.from(Array(pages).keys()).map ((page)=> (
+                <option key={page} value={page + 1}>{page + 1}</option>
+            ))
+        }
         </select>
       </section>
 
